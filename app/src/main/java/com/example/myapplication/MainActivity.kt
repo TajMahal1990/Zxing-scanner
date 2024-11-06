@@ -3,19 +3,19 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var scanResult: TextView
+    private lateinit var binding: ActivityMainBinding
     private lateinit var scannerHelper: BarcodeScannerHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        scanResult = findViewById(R.id.scan_result)
         scannerHelper = BarcodeScannerHelper(this)  // Инициализация помощника для сканирования
 
         // Автоматически запускаем сканирование при запуске приложения
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         // Используем helper для обработки результата сканирования
         scannerHelper.handleScanResult(requestCode, resultCode, data) { result ->
-            scanResult.text = result ?: "Сканирование отменено"
+            binding.scanResult.text = result ?: "Сканирование отменено"
         }
     }
 }
